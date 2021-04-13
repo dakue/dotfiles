@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export STARSHIP_CONFIG="$HOME/.config/starship/tmux.toml"
+starship $@

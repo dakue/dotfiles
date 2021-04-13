@@ -1,0 +1,10 @@
+[aws]
+format = '[$symbol$profile(\($region\))]($style) '
+symbol = " "
+style = "none"
+
+[kubernetes]
+symbol = "ﴱ "
+format = '[$symbol$context( \($namespace\))]($style)'
+disabled = false
+style = "none"
