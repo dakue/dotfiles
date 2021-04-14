@@ -34,3 +34,6 @@ if [ $? -eq 1 ]
 then
   sudo pacman -Sy --noconfirm chromium xss-lock i3lock xclip neovim python-pynvim python-pip ansible
 fi
+
+mkdir -p $HOME/.config/lxterminal
+ln -s $(pwd)/config/lxterminal/lxterminal.conf $HOME/.config/lxterminal/lxterminal.conf
