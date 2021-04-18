@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#RESOLUTION="$(xrandr -q | perl -ne 'print $2 if /Screen 0\: minimum (.*), current (.*), maximum (.*)/')"
+RESOLUTION="$(xrandr --listactivemonitors | perl -ne 'print $1.'x'.$2 if /(3840)\/\d*x(2160)\/\d*/')"
+
+if [[ $RESOLUTION == "3840x2160" ]]
+then
+  exec /usr/bin/chromium --force-device-scale-factor=1.5 "$@"
+else
+  exec /usr/bin/chromium "$@"
+fi

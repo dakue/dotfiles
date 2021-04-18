@@ -1,0 +1,13 @@
+#!/bin/bash
+
+FLATPAK_PATH="$(flatpak --installations)"
+
+RESOLUTION="$(xrandr -q | perl -ne 'print $2 if /Screen 0\: minimum (.*), current (.*), maximum (.*)/')"
+
+if [[ $RESULTION == "3840x2160" ]]
+then
+  exec $FLATPAK_PATH/exports/bin/com.slack.Slack --force-device-scale-factor=1.5 "$@" 
+else
+  exec $FLATPAK_PATH/exports/bin/com.slack.Slack "$@" 
+fi
+
