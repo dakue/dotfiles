@@ -66,9 +66,9 @@
     - name: link scripts
       file:
         state: link
-        src: "{{ playbook_dir }}/local/bin/{{ items }}"
-        dest: "{{ ansible_env.HOME }}/.local/bin/{{ items }}"
-      with_items:
+        src: "{{ playbook_dir }}/local/bin/{{ item }}"
+        dest: "{{ ansible_env.HOME }}/.local/bin/{{ item }}"
+      loop:
         - chromium
         - com.slack.Slack
         - starship-tmux
