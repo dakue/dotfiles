@@ -15,7 +15,7 @@
     - name: link tmux.conf
       file:
         state: link
-        src: .tmux.conf
+        src: "{{ playbook_dir }}/.tmux.conf"
         dest: "{{ ansible_env.HOME }}/.tmux.conf"
     - name: install tpm plugins
       shell:
@@ -28,7 +28,7 @@
     - name: link init.vim
       file:
         state: link
-        src: config/nvim/init.vim
+        src: "{{ playbook_dir }}/config/nvim/init.vim"
         dest: "{{ ansible_env.HOME }}/.config/nvim/init.vim"
     - name: create vim-plug directory
       file:
@@ -45,7 +45,7 @@
     - name: link npmrc
       file:
         state: link
-        src: .npmrc
+        src: "{{ playbook_dir }}/.npmrc"
         dest: "{{ ansible_env.HOME }}/.npmrc"
     - name: create starship directory
       file:
@@ -54,17 +54,17 @@
     - name: link starship.conf
       file:
         state: link
-        src: config/starship.toml
+        src: "{{ playbook_dir }}/config/starship.toml"
         dest: "{{ ansible_env.HOME }}/.config/starship.toml"
     - name: link starship tmux.conf
       file:
         state: link
-        src: config/starship/tmux.toml
+        src: "{{ playbook_dir }}/config/starship/tmux.toml"
         dest: "{{ ansible_env.HOME }}/.config/starship/tmux.toml"
     - name: link scripts
       file:
         state: link
-        src: "local/bin/{{ items }}"
+        src: "{{ playbook_dir }}/local/bin/{{ items }}"
         dest: "{{ ansible_env.HOME }}/.local/bin/{{ items }}"
       with_items:
         - chromium
