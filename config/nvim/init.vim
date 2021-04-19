@@ -22,7 +22,10 @@ Plug 'tpope/vim-fugitive'
 call plug#end()
 
 set background=dark
-colorscheme solarized8
+" silent! is needed because the theme is not available at the first startup
+" and for the error to be acknowledged we would need a keyboard input
+" https://stackoverflow.com/questions/54606581/ignore-all-errors-in-vimrc-at-vim-startup
+silent! colorscheme solarized8
 let g:airline_theme='solarized'
 let g:airline_solarized_bg='dark'
 

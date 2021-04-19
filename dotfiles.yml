@@ -35,7 +35,7 @@
     - name: create vim-plug directory
       file:
         state: directory
-        path: "{{ ansible_env.HOME }}/.local/share/nvim/site/autoload/plug.vim"
+        path: "{{ ansible_env.HOME }}/.local/share/nvim/site/autoload"
     - name: download vim-plug
       get_url:
         url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
