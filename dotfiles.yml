@@ -21,6 +21,8 @@
       shell:
         cmd: "{{ ansible_env.HOME }}/.tmux/plugins/tpm/bin/install_plugins"
         creates: "{{ ansible_env.HOME }}/.tmux/plugins/tmux-sensible/sensible.tmux"
+      environment:
+        TMUX_PLUGIN_MANAGER_PATH: "{{ ansible_env.HOME }}/.tmux/plugins"
     - name: create neovim configuration directory
       file:
         state: directory
