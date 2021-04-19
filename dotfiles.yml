@@ -1,0 +1,73 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: create bin directory
+      file:
+        state: directory
+        path: "{{ ansible_env.HOME }}/.local/bin"
+    - name: checkout tpm
+      git:
+        repo: https://github.com/tmux-plugins/tpm
+        dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
+        update: yes
+        version: master
+    - name: link tmux.conf
+      file:
+        state: link
+        src: .tmux.conf
+        dest: "{{ ansible_env.HOME }}/.tmux.conf"
+    - name: install tpm plugins
+      shell:
+        cmd: "{{ ansible_env.HOME }}/.tmux/plugins/tpm/bin/install_plugins"
+        creates: "{{ ansible_env.HOME }}/.tmux/plugins/tmux-sensible/sensible.tmux"
+    - name: create neovim configuration directory
+      file:
+        state: directory
+        path: "{{ ansible_env.HOME }}/.config/nvim"
+    - name: link init.vim
+      file:
+        state: link
+        src: config/nvim/init.vim
+        dest: "{{ ansible_env.HOME }}/.config/nvim/init.vim"
+    - name: create vim-plug directory
+      file:
+        state: directory
+        path: "{{ ansible_env.HOME }}/.local/share/nvim/site/autoload/plug.vim"
+    - name: download vim-plug
+      get_url:
+        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        dest: "{{ ansible_env.HOME }}/.local/share/nvim/site/autoload/plug.vim"
+    - name: install neovim plugins via vim-plug
+      shell:
+        cmd: nvim --headless +PlugInstall +UpdateRemotePlugins +qall
+        creates: "{{ ansible_env.HOME }}/.config/nvim/plugged/vim-sensible/README.markdown"
+    - name: link npmrc
+      file:
+        state: link
+        src: .npmrc
+        dest: "{{ ansible_env.HOME }}/.npmrc"
+    - name: create starship directory
+      file:
+        state: directory
+        path: "{{ ansible_env.HOME }}/.config/starship"
+    - name: link starship.conf
+      file:
+        state: link
+        src: config/starship.toml
+        dest: "{{ ansible_env.HOME }}/.config/starship.toml"
+    - name: link starship tmux.conf
+      file:
+        state: link
+        src: config/starship/tmux.toml
+        dest: "{{ ansible_env.HOME }}/.config/starship/tmux.toml"
+    - name: link scripts
+      file:
+        state: link
+        src: "local/bin/{{ items }}"
+        dest: "{{ ansible_env.HOME }}/.local/bin/{{ items }}"
+      with_items:
+        - chromium
+        - com.slack.Slack
+        - starship-tmux
+        - ttyd-webgl-solarized-dark
