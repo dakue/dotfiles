@@ -6,7 +6,7 @@
 # loaded earlier with those loaded later in the chain. The file itself will
 # always be loaded last.
 import:
-  - /home/dkuehne/.config/alacritty/solarized_dark.yaml
+  - {{ ansible_env.HOME }}/.config/alacritty/solarized_dark.yaml
 
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables

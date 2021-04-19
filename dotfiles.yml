@@ -63,6 +63,28 @@
         state: link
         src: "{{ playbook_dir }}/config/starship/tmux.toml"
         dest: "{{ ansible_env.HOME }}/.config/starship/tmux.toml"
+    - name: create lxterminal directory
+      file:
+        state: directory
+        path: "{{ ansible_env.HOME }}/.config/lxterminal"
+    - name: link lxterminal configuration
+      file:
+        state: link
+        src: "{{ playbook_dir }}/config/lxterminal/lxterminal.conf"
+        dest: "{{ ansible_env.HOME }}/.config/lxterminal/lxterminal.conf"
+    - name: create alacritty directory
+      file:
+        state: directory
+        path: "{{ ansible_env.HOME }}/.config/alacritty"
+    - name: create alacritty configuration
+      template:
+        src: "{{ playbook_dir }}/config/alacritty/alacritty.yml.j2"
+        dest: "{{ ansible_env.HOME }}/.config/alacritty/alacritty.yml"
+    - name: link alacritty solarized dark theme
+      file:
+        state: link
+        src: "{{ playbook_dir }}/config/alacritty/solarized_dark.yml"
+        dest: "{{ ansible_env.HOME }}/.config/alacritty/solarized_dark.yml"
     - name: link scripts
       file:
         state: link
@@ -73,3 +95,15 @@
         - com.slack.Slack
         - starship-tmux
         - ttyd-webgl-solarized-dark
+    - name: create applications directory
+      file:
+        state: directory
+        path: "{{ ansible_env.HOME }}/.local/share/applications"
+    - name: link desktop files
+      file:
+        state: link
+        src: "{{ playbook_dir }}/local/share/applications/{{ item }}"
+        dest: "{{ ansible_env.HOME }}/.local/share/applications/{{ item }}"
+      loop:
+        - chromium.desktop
+        - com.slack.Slack.desktop
