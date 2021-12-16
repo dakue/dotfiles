@@ -21,7 +21,10 @@ Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
+" swith between light and dark theme
+"set background=light
 set background=dark
+
 " silent! is needed because the theme is not available at the first startup
 " and for the error to be acknowledged we would need a keyboard input
 " https://stackoverflow.com/questions/54606581/ignore-all-errors-in-vimrc-at-vim-startup
@@ -39,12 +42,16 @@ let g:deoplete#enable_at_startup = 1
 set hidden
 
 let g:LanguageClient_serverCommands = {
-    \ 'terraform': ['terraform-lsp'],
+    \ 'terraform': ['terraform-ls','serve'],
     \ 'sh': ['bash-language-server', 'start'],
-    \ 'yaml': ['yaml-language-server', '--stdio']
+    \ 'yaml': ['yaml-language-server', '--stdio'],
+    \ 'python' : ['pyls']
     \ }
 
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+nnoremap <F6> :call LanguageClient#textDocument_completion()<CR>
+" map omni completion C+x C+o to C+space
+"inoremap <Nul> <c-x> <c-o>
 
 autocmd BufNewFile,BufRead *.tf set ft=terraform syntax=terraform
 autocmd BufNewFile,BufRead *.tfvars set ft=terraform syntax=terraform
@@ -54,8 +61,36 @@ autocmd BufNewFile,BufRead *.hcl set ft=terraform syntax=terraform
 " nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 " nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
+" setting for yaml language server
+" taken from https://github.com/autozimu/LanguageClient-neovim/wiki/yaml-language-server#method-2
+let settings = json_decode('
+\{
+\    "yaml": {
+\        "completion": true,
+\        "hover": true,
+\        "validate": true,
+\        "schemas": {
+\            "Kubernetes": "/*"
+\        },
+\        "format": {
+\            "enable": false
+\        }
+\    },
+\    "http": {
+\        "proxyStrictSSL": true
+\    }
+\}')
+augroup LanguageClient_config
+  autocmd!
+  autocmd User LanguageClientStarted call LanguageClient#Notify(
+    \ 'workspace/didChangeConfiguration', {'settings': settings})
+augroup END
+
 nnoremap <C-p> :Files<CR>
 
+" switch off formatter for yaml files
+let g:neoformat_enabled_yaml = []
+" format on save
 augroup fmt
   autocmd!
   autocmd BufWritePre * undojoin | Neoformat
@@ -70,3 +105,8 @@ autocmd BufReadPost *
   \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
   \ |   exe "normal! g`\""
   \ | endif
+
+" set python interpreter independent from venv
+" otherwise pynvim has to be installed in every venv
+let g:python_host_prog = '/usr/bin/python'
+let g:python3_host_prog = '/usr/bin/python3'
