@@ -76,15 +76,11 @@
       file:
         state: directory
         path: "{{ ansible_env.HOME }}/.config/alacritty"
-    - name: create alacritty configuration
-      template:
-        src: "{{ playbook_dir }}/config/alacritty/alacritty.yml.j2"
-        dest: "{{ ansible_env.HOME }}/.config/alacritty/alacritty.yml"
-    - name: link alacritty solarized dark theme
+    - name: link alacritty configuration
       file:
         state: link
-        src: "{{ playbook_dir }}/config/alacritty/solarized_dark.yml"
-        dest: "{{ ansible_env.HOME }}/.config/alacritty/solarized_dark.yml"
+        src: "{{ playbook_dir }}/config/alacritty/alacritty.yml"
+        dest: "{{ ansible_env.HOME }}/.config/alacritty/alacritty.yml"
     - name: link scripts
       file:
         state: link
