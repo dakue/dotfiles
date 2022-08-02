@@ -103,3 +103,11 @@
       loop:
         - chromium.desktop
         - com.slack.Slack.desktop
+    - name: create fonts directory
+      file:
+        state: directory
+        path: "{{ ansible_env.HOME }}/.local/share/fonts"
+    - name: download font Sauce Code Pro Nerd Font Complete Mono
+      get_url:
+        url: https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete%20Mono.ttf
+        dest: "{{ ansible_env.HOME }}/.local/share/fonts/Sauce Code Pro Nerd Font Complete Mono.ttf"
