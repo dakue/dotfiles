@@ -22,8 +22,8 @@ Plug 'tpope/vim-fugitive'
 call plug#end()
 
 " swith between light and dark theme
-"set background=light
-set background=dark
+set background=light
+"set background=dark
 
 " silent! is needed because the theme is not available at the first startup
 " and for the error to be acknowledged we would need a keyboard input
